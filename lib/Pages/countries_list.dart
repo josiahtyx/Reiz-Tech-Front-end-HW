@@ -79,52 +79,6 @@ class _MainPageState extends State<MainPage> {
     setState((() => _countriesModel));
   }
 
-  Widget potato() => DataTable(
-        columns: const <DataColumn>[
-          DataColumn(
-            label: Text(
-              'Name',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              'Age',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-          DataColumn(
-            label: Text(
-              'Role',
-              style: TextStyle(fontStyle: FontStyle.italic),
-            ),
-          ),
-        ],
-        rows: const <DataRow>[
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('Sarah')),
-              DataCell(Text('19')),
-              DataCell(Text('Student')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('Janine')),
-              DataCell(Text('43')),
-              DataCell(Text('Professor')),
-            ],
-          ),
-          DataRow(
-            cells: <DataCell>[
-              DataCell(Text('William')),
-              DataCell(Text('27')),
-              DataCell(Text('Associate Professor')),
-            ],
-          ),
-        ],
-      );
-
   Widget showList(int i) => ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
@@ -179,7 +133,7 @@ class _MainPageState extends State<MainPage> {
       backgroundColor: Color.fromARGB(255, 227, 255, 227),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
+          padding: const EdgeInsets.fromLTRB(50, 30, 50, 30),
           child: Column(children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
