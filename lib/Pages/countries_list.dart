@@ -80,8 +80,10 @@ class _MainPageState extends State<MainPage> {
   void searchCountry(String country) async {
     await _getData();
     final searchedCountry = _countriesModel!.where((element) {
-      final searchedCountry = element.name;
-      return searchedCountry!.contains(country);
+      final searchedCountry = element.name!.toLowerCase();
+      final input = country.toLowerCase();
+
+      return searchedCountry.contains(input);
     }).toList();
 
     resultsNum = searchedCountry.length;
