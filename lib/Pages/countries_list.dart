@@ -16,6 +16,7 @@ class _MainPageState extends State<MainPage> {
   bool isDescending = false;
   int pageNum = 0;
   late TextEditingController _controller;
+  late TextEditingController _countryNameController;
 
   final TableRow rowSpacer = TableRow(children: [
     SizedBox(
@@ -40,11 +41,13 @@ class _MainPageState extends State<MainPage> {
     super.initState();
     _getData();
     _controller = TextEditingController();
+    _countryNameController = TextEditingController();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _countryNameController.dispose();
     super.dispose();
   }
 
@@ -71,6 +74,16 @@ class _MainPageState extends State<MainPage> {
     }).toList();
 
     setState((() => _countriesModel = oceaniaCountries));
+  }
+
+  void searchCountry(String country) async {
+    await _getData();
+    final searchedCountry = _countriesModel!.where((element) {
+      final searchedCountry = element.name;
+      return searchedCountry!.contains(country);
+    }).toList();
+
+    setState((() => _countriesModel = searchedCountry));
   }
 
   void lessThanLT() {
@@ -230,7 +243,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 0),
+                    padding: const EdgeInsets.only(right: 25),
                     child: ElevatedButton(
                       onPressed: lessThanLT,
                       child: Padding(
@@ -250,6 +263,33 @@ class _MainPageState extends State<MainPage> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(15),
                           )),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    child: Container(
+                      width: 250,
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 204, 255, 204),
+                        border: Border.all(
+                            color: Color.fromARGB(255, 143, 255, 143)),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 20.0),
+                        child: TextField(
+                          controller: _countryNameController,
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            hintText: 'Insert Country',
+                          ),
+                          onSubmitted: (String value) async {
+                            setState(() {
+                              searchCountry(value);
+                            });
+                          },
+                        ),
+                      ),
                     ),
                   ),
                 ],
