@@ -36,3 +36,6 @@ Future main() async {
     home: MainPage(),
   ));
 }
+
+//TODO: 4. Fix scroll issue on mobile devices
+// 5. Fix Flex issue with title and buttons

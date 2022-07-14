@@ -13,6 +13,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late List<Countries>? _countriesModel = [];
+  bool isDescending = false;
 
   final TableRow rowSpacer = TableRow(children: [
     SizedBox(
@@ -38,14 +39,74 @@ class _MainPageState extends State<MainPage> {
     _getData();
   }
 
-  void _getData() async {
+  Future<void> _getData() async {
     _countriesModel = (await ApiService().getCountries())!;
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {}));
   }
 
   void sortAlphabetically() {
-    print('Hello');
+    setState((() => isDescending = !isDescending));
+    _countriesModel!
+      ..sort((a, b) => isDescending
+          ? b.name!.compareTo(a.name.toString())
+          : a.name!.compareTo(b.name.toString()));
   }
+
+  void searchOceania() {
+    final oceaniaCountries = _countriesModel!.where((element) {
+      final oceaniaRegion = element.region;
+      return oceaniaRegion!.contains('Oceania');
+    }).toList();
+
+    setState((() => _countriesModel = oceaniaCountries));
+  }
+
+  void lessThanLT() {
+    _countriesModel!.removeWhere((element) => element.area == null);
+    _countriesModel!.removeWhere((element) => element.area! >= 65300);
+    setState((() => _countriesModel));
+  }
+
+  Widget showList() => ListView.builder(
+        scrollDirection: Axis.vertical,
+        shrinkWrap: true,
+        // itemCount: 15,
+        itemCount: _countriesModel!.length,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: Color.fromARGB(255, 204, 255, 204),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Table(
+                  // border: TableBorder.all(),
+                  columnWidths: {
+                    0: FlexColumnWidth(2),
+                    1: FlexColumnWidth(1),
+                    2: FlexColumnWidth(1),
+                    3: FlexColumnWidth(1),
+                  },
+
+                  children: [
+                    TableRow(
+                      children: [
+                        Text(_countriesModel![index].name.toString()),
+                        Text(_countriesModel![index].region.toString()),
+                        Text(_countriesModel![index].area.toString()),
+                        Text(_countriesModel![index].independent.toString()),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +117,7 @@ class _MainPageState extends State<MainPage> {
           padding: const EdgeInsets.fromLTRB(10, 30, 10, 30),
           child: Column(children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'REIZ TECH HOMEWORK ASSIGNMENT',
@@ -63,6 +125,29 @@ class _MainPageState extends State<MainPage> {
                     color: Colors.black,
                     fontSize: 40,
                     fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 25),
+                  child: ElevatedButton(
+                    onPressed: _getData,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        'Refresh',
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0.0,
+                        shadowColor: Colors.transparent,
+                        primary: Color.fromARGB(255, 143, 255, 143),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
+                        )),
                   ),
                 ),
               ],
@@ -78,7 +163,7 @@ class _MainPageState extends State<MainPage> {
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
-                          'Refresh',
+                          isDescending ? 'Sort Z-A' : 'Sort A-Z',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 14,
@@ -97,7 +182,7 @@ class _MainPageState extends State<MainPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: ElevatedButton(
-                      onPressed: sortAlphabetically,
+                      onPressed: lessThanLT,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
@@ -120,7 +205,7 @@ class _MainPageState extends State<MainPage> {
                   Padding(
                     padding: const EdgeInsets.only(right: 25),
                     child: ElevatedButton(
-                      onPressed: sortAlphabetically,
+                      onPressed: searchOceania,
                       child: Padding(
                         padding: const EdgeInsets.all(12.0),
                         child: Text(
@@ -203,54 +288,7 @@ class _MainPageState extends State<MainPage> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        // itemCount: 15,
-                        itemCount: _countriesModel!.length,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Color.fromARGB(255, 204, 255, 204),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: Table(
-                                  // border: TableBorder.all(),
-                                  columnWidths: {
-                                    0: FlexColumnWidth(2),
-                                    1: FlexColumnWidth(1),
-                                    2: FlexColumnWidth(1),
-                                    3: FlexColumnWidth(1),
-                                  },
-
-                                  children: [
-                                    TableRow(
-                                      children: [
-                                        Text(_countriesModel![index]
-                                            .name
-                                            .toString()),
-                                        Text(_countriesModel![index]
-                                            .region
-                                            .toString()),
-                                        Text(_countriesModel![index]
-                                            .area
-                                            .toString()),
-                                        Text(_countriesModel![index]
-                                            .independent
-                                            .toString()),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        },
-                      ),
+                    : showList()
               ],
             )
 
