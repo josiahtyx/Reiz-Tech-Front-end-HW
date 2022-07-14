@@ -1,16 +1,6 @@
-# homework
+# Reiz-Tech Frontend Homework
+Built with Flutter.
 
-A new Flutter project.
+[Figma Prototype here](https://www.figma.com/proto/hcl3iQ80KAOoYX6Nd6TEn2/ReizTech-Homework-Assignment?page-id=0%3A1&node-id=2%3A35&viewport=-625%2C469%2C0.62&scaling=contain&starting-point-node-id=2%3A35)  
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+[Homework here](https://www.reiz-tech-homework.web.app)
