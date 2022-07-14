@@ -172,7 +172,13 @@ class _MainPageState extends State<MainPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 25),
                   child: ElevatedButton(
-                    onPressed: _getData,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const MainPage()),
+                      );
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),
                       child: Text(
