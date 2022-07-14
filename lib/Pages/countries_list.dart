@@ -15,6 +15,7 @@ class _MainPageState extends State<MainPage> {
   late List<Countries>? _countriesModel = [];
   bool isDescending = false;
   int pageNum = 0;
+  int resultsNum = 10;
   late TextEditingController _controller;
   late TextEditingController _countryNameController;
 
@@ -83,6 +84,7 @@ class _MainPageState extends State<MainPage> {
       return searchedCountry!.contains(country);
     }).toList();
 
+    resultsNum = searchedCountry.length;
     setState((() => _countriesModel = searchedCountry));
   }
 
@@ -92,10 +94,10 @@ class _MainPageState extends State<MainPage> {
     setState((() => _countriesModel));
   }
 
-  Widget showList(int i) => ListView.builder(
+  Widget showList(int i, int resultsNum) => ListView.builder(
         scrollDirection: Axis.vertical,
         shrinkWrap: true,
-        itemCount: 10,
+        itemCount: resultsNum,
         // itemCount: _countriesModel!.length,
         itemBuilder: (context, index) {
           return SingleChildScrollView(
@@ -355,7 +357,7 @@ class _MainPageState extends State<MainPage> {
                     ? const Center(
                         child: CircularProgressIndicator(),
                       )
-                    : showList(pageNum)
+                    : showList(pageNum, resultsNum)
               ],
             ),
 
